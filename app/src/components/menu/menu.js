@@ -198,6 +198,55 @@ function createMenu({ nativefierVersion,
           accelerator: 'CmdOrCtrl+W',
           role: 'close',
         },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Issues',
+          accelerator: 'CmdOrCtrl+1',
+          click: (item, focusedWindow) => {
+            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/issues')
+          },
+        },
+        {
+          label: 'Dashboard',
+          accelerator: 'CmdOrCtrl+2',
+          click: (item, focusedWindow) => {
+            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/dashboard')
+          },
+        },
+        {
+          label: 'Boards',
+          accelerator: 'CmdOrCtrl+3',
+          click: (item, focusedWindow) => {
+            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/agiles')
+          },
+        },
+        {
+          label: 'Reports',
+          accelerator: 'CmdOrCtrl+4',
+          click: (item, focusedWindow) => {
+            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/reports')
+          },
+        },
+        {
+          label: 'Projects',
+          accelerator: 'CmdOrCtrl+5',
+          click: (item, focusedWindow) => {
+            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/projects')
+          },
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Projects',
+          accelerator: 'CmdOrCtrl+0',
+          click: (item, focusedWindow) => {
+            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/admin/workflows')
+          },
+        },
+
       ],
     },
     {
