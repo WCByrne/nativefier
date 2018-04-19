@@ -27,6 +27,7 @@ export default function (inpOptions) {
     asar: inpOptions.conceal || false,
     icon: inpOptions.icon,
     counter: inpOptions.counter || false,
+    bounce: inpOptions.bounce || false,
     width: inpOptions.width || 1280,
     height: inpOptions.height || 800,
     minWidth: inpOptions.minWidth,
@@ -66,9 +67,11 @@ export default function (inpOptions) {
       FileDescription: inpOptions.name,
     },
     processEnvs: inpOptions.processEnvs,
+    fileDownloadOptions: inpOptions.fileDownloadOptions,
     tray: inpOptions.tray || false,
     basicAuthUsername: inpOptions.basicAuthUsername || null,
     basicAuthPassword: inpOptions.basicAuthPassword || null,
+    alwaysOnTop: inpOptions.alwaysOnTop || false,
   };
 
   if (options.verbose) {
@@ -99,6 +102,14 @@ export default function (inpOptions) {
 
   if (options.height > options.maxHeight) {
     options.height = options.maxHeight;
+  }
+
+  if (typeof inpOptions.x !== 'undefined') {
+    options.x = inpOptions.x;
+  }
+
+  if (typeof inpOptions.y !== 'undefined') {
+    options.y = inpOptions.y;
   }
 
   return asyncConfig(options);

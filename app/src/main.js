@@ -12,10 +12,11 @@ import inferFlash from './helpers/inferFlash';
 
 const { isOSX } = helpers;
 
-electronDownload();
-
 const APP_ARGS_FILE_PATH = path.join(__dirname, '..', 'nativefier.json');
 const appArgs = JSON.parse(fs.readFileSync(APP_ARGS_FILE_PATH, 'utf8'));
+
+const fileDownloadOptions = Object.assign({}, appArgs.fileDownloadOptions);
+electronDownload(fileDownloadOptions);
 
 if (appArgs.processEnvs) {
   Object.keys(appArgs.processEnvs).forEach((key) => {
@@ -61,7 +62,13 @@ if (appArgs.basicAuthPassword) {
 let setDockBadge = () => {};
 
 if (isOSX()) {
-  setDockBadge = app.dock.setBadge;
+  let currentBadgeCount = 0;
+
+  setDockBadge = (count, bounce = false) => {
+    app.dock.setBadge(count);
+    if (bounce && count > currentBadgeCount) app.dock.bounce();
+    currentBadgeCount = count;
+  };
 }
 
 app.on('window-all-closed', () => {
@@ -72,7 +79,7 @@ app.on('window-all-closed', () => {
 
 app.on('activate', (event, hasVisibleWindows) => {
   if (isOSX()) {
-        // this is called when the dock is clicked
+    // this is called when the dock is clicked
     if (!hasVisibleWindows) {
       mainWindow.show();
     }
@@ -108,7 +115,7 @@ app.on('ready', () => {
 });
 
 app.on('login', (event, webContents, request, authInfo, callback) => {
-    // for http authentication
+  // for http authentication
   event.preventDefault();
 
   if (appArgs.basicAuthUsername !== null && appArgs.basicAuthPassword !== null) {
@@ -122,7 +129,9 @@ if (appArgs.singleInstance) {
   const shouldQuit = app.makeSingleInstance(() => {
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
-      if (mainWindow.isMinimized()) {
+      if (!mainWindow.isVisible()) { // tray
+        mainWindow.show();
+      } if (mainWindow.isMinimized()) { // minimized
         mainWindow.restore();
       }
       mainWindow.focus();

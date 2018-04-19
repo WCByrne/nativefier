@@ -1,6 +1,10 @@
-import path from 'path';
+import helpers from './../../helpers/helpers';
 
-const { app, Tray, Menu, ipcMain } = require('electron');
+const {
+  app, Tray, Menu, ipcMain, nativeImage,
+} = require('electron');
+
+const { getAppIcon } = helpers;
 
 /**
  *
@@ -12,8 +16,9 @@ function createTrayIcon(inpOptions, mainWindow) {
   const options = Object.assign({}, inpOptions);
 
   if (options.tray) {
-    const iconPath = path.join(__dirname, '../', '/icon.png');
-    const appIcon = new Tray(iconPath);
+    const iconPath = getAppIcon();
+    const nimage = nativeImage.createFromPath(iconPath);
+    const appIcon = new Tray(nimage);
 
     const onClick = () => {
       if (mainWindow.isVisible()) {

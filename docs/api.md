@@ -15,18 +15,22 @@
     - [[conceal]](#conceal)
     - [[icon]](#icon)
     - [[counter]](#counter)
+    - [[bounce]](#bounce)
     - [[width]](#width)
     - [[height]](#height)
     - [[min-width]](#min-width)
     - [[min-height]](#min-height)
     - [[max-width]](#max-width)
     - [[max-height]](#max-height)
+    - [[x]](#x)
+    - [[y]](#y)
     - [[show-menu-bar]](#show-menu-bar)
     - [[fast-quit]](#fast-quit)
     - [[user-agent]](#user-agent)
     - [[honest]](#honest)
     - [[ignore-certificate]](#ignore-certificate)
     - [[insecure]](#insecure)
+    - [[internal-urls]](#internal-urls)
     - [[flash]](#flash)
     - [[flash-path]](#flash-path)
     - [[disk-cache-size]](#disk-cache-size)
@@ -43,6 +47,7 @@
     - [[tray]](#tray)
     - [[basic-auth-username]](#basic-auth-username)
     - [[basic-auth-password]](#basic-auth-username)
+    - [[always-on-top]](#always-on-top)
 - [Programmatic API](#programmatic-api)
 
 ## Command Line
@@ -91,9 +96,9 @@ The name of the application, which will affect strings in titles and the icon.
 ```
 -p, --platform <value>
 ```
-Automatically determined based on the current OS. Can be overwritten by specifying either `linux`, `windows`, or `osx`.
+Automatically determined based on the current OS. Can be overwritten by specifying either `linux`, `windows`, `osx` or `mas` for a Mac App Store specific build.
 
-The alternative values `win32` (for Windows) or `darwin`, `mac` (for OSX) can also be used.
+The alternative values `win32` (for Windows) or `darwin`, `mac` (for macOS) can also be used.
 
 #### [arch]
 
@@ -161,7 +166,7 @@ Specifies if the source code within the nativefied app should be packaged into a
 
 The icon parameter should be a path to a `.png` file.
 
-##### Packaging for OSX
+##### Packaging for macOS
 
 The icon parameter can either be a `.icns` or a `.png` file if the [optional dependencies](../README.md#optional-dependencies) are installed.
 
@@ -180,6 +185,14 @@ To retrieve the `.icns` file from the downloaded file, extract it first and pres
 ```
 
 Use a counter that persists even with window focus for the application badge for sites that use an "(X)" format counter in the page title (i.e. Gmail).  Same limitations as the badge option (above).
+
+#### [bounce]
+
+```
+--bounce
+```
+
+(macOS only) When the the counter increases, the dock icon will bounce for one second. This only works if the `--counter` option is active.
 
 #### [width]
 
@@ -229,6 +242,22 @@ Maximum width of the packaged application, default is no limit.
 
 Maximum height of the packaged application, default is no limit.
 
+#### [x]
+
+```
+--x <value>
+```
+
+X location of the packaged application window.
+
+#### [y]
+
+```
+--y <value>
+```
+
+Y location of the packaged application window.
+
 #### [show-menu-bar]
 
 ```
@@ -243,7 +272,7 @@ Specifies if the menu bar should be shown.
 -f, --fast-quit
 ```
 
-(OSX Only) Specifies to quit the app after closing all windows, defaults to false.
+(macOS only) Specifies to quit the app after closing all windows, defaults to false.
 
 #### [user-agent]
 
@@ -290,6 +319,20 @@ Passes the enable-es3-apis flag to the Chrome engine, to force the activation of
 --insecure
 ```
 Forces the packaged app to ignore web security errors, such as [Mixed Content](https://developer.mozilla.org/en-US/docs/Security/Mixed_content) errors when receiving HTTP content on a HTTPS site.
+
+
+#### [internal-urls]
+
+```
+--internal-urls <regex>
+```
+Regular expression of URLs to consider "internal"; all other URLs will be opened in an external browser. Defaults to URLs on same second-level domain as app.
+
+Example:
+
+```bash
+nativefier https://google.com --internal-urls ".*?\.google\.*?"
+```
 
 #### [flash]
 
@@ -442,6 +485,30 @@ Example:
 nativefier <your-geolocation-enabled-website> --processEnvs '{"GOOGLE_API_KEY": "<your-google-api-key>"}'
 ```
 
+#### [file-download-options]
+
+```
+--file-download-options <json-string>
+```
+
+a JSON string of key/value pairs to be set as file download options.  See [electron-dl](https://github.com/sindresorhus/electron-dl) for available options.
+
+Example:
+
+```bash
+nativefier <your-website> --file-download-options '{"saveAs": true}'
+```
+
+#### [always-on-top]
+
+```
+--always-on-top
+```
+
+Enable always on top for the packaged application.
+
+
+
 ## Programmatic API
 
 You can use the Nativefier programmatic API as well.
@@ -468,6 +535,7 @@ var options = {
     asar: false, // see conceal
     icon: '~/Desktop/icon.png',
     counter: false,
+    bounce: false,
     width: 1280,
     height: 800,
     showMenuBar: false,
@@ -480,6 +548,9 @@ var options = {
     honest: false,
     zoom: 1.0,
     singleInstance: false,
+    fileDownloadOptions: {
+      saveAs: true // always show "Save As" dialog
+    },
     processEnvs: {
       "GOOGLE_API_KEY": "<your-google-api-key>"
     }
@@ -498,7 +569,7 @@ nativefier(options, function(error, appPath) {
 
 #### [version-string]
 
-*Object* (**deprecated** and will be removed in a future major version (of `electron-packager`), please use the
+*Object* (**deprecated** as removed in `electron-packager` 9.0.0, please use the
 [`win32metadata`](#win32metadata) parameter instead)
 
 #### [win32metadata]

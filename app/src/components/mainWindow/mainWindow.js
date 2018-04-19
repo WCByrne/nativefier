@@ -6,7 +6,9 @@ import helpers from './../../helpers/helpers';
 import createMenu from './../menu/menu';
 import initContextMenu from './../contextMenu/contextMenu';
 
-const { isOSX, linkIsInternal, getCssToInject, shouldInjectCss } = helpers;
+const {
+  isOSX, linkIsInternal, getCssToInject, shouldInjectCss, getAppIcon,
+} = helpers;
 
 const ZOOM_INTERVAL = 0.1;
 
@@ -69,8 +71,8 @@ function createMainWindow(inpOptions, onAppQuit, setDockBadge) {
     minHeight: options.minHeight,
     maxWidth: options.maxWidth,
     maxHeight: options.maxHeight,
-    x: mainWindowState.x,
-    y: mainWindowState.y,
+    x: options.x,
+    y: options.y,
     autoHideMenuBar: !options.showMenuBar,
     // Convert dashes to spaces because on linux the app name is joined with dashes
     title: options.name,
@@ -84,9 +86,11 @@ function createMainWindow(inpOptions, onAppQuit, setDockBadge) {
       zoomFactor: options.zoom,
     },
     // after webpack path here should reference `resources/app/`
-    icon: path.join(__dirname, '../', '/icon.png'),
+    icon: getAppIcon(),
     // set to undefined and not false because explicitly setting to false will disable full screen
     fullscreen: options.fullScreen || undefined,
+    // Whether the window should always stay on top of other windows. Default is false.
+    alwaysOnTop: options.alwaysOnTop,
   });
 
   mainWindowState.manage(mainWindow);
@@ -125,7 +129,7 @@ function createMainWindow(inpOptions, onAppQuit, setDockBadge) {
       if (response !== 0) {
         return;
       }
-      const session = mainWindow.webContents.session;
+      const { session } = mainWindow.webContents;
       session.clearStorageData(() => {
         session.clearCache(() => {
           mainWindow.loadURL(options.targetUrl);
@@ -177,7 +181,7 @@ function createMainWindow(inpOptions, onAppQuit, setDockBadge) {
       const itemCountRegex = /[([{](\d*?)\+?[}\])]/;
       const match = itemCountRegex.exec(title);
       if (match) {
-        setDockBadge(match[1]);
+        setDockBadge(match[1], options.bounce);
       } else {
         setDockBadge('');
       }
@@ -187,7 +191,7 @@ function createMainWindow(inpOptions, onAppQuit, setDockBadge) {
       if (!isOSX() || mainWindow.isFocused()) {
         return;
       }
-      setDockBadge('•');
+      setDockBadge('•', options.bounce);
     });
     mainWindow.on('focus', () => {
       setDockBadge('');

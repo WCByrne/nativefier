@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 const INJECT_CSS_PATH = path.join(__dirname, '..', 'inject/inject.css');
+const log = require('loglevel');
 
 function isOSX() {
   return os.platform() === 'darwin';
@@ -51,8 +52,11 @@ function debugLog(browserWindow, message) {
   setTimeout(() => {
     browserWindow.webContents.send('debug', message);
   }, 3000);
-  // eslint-disable-next-line no-console
-  console.log(message);
+  log.info(message);
+}
+
+function getAppIcon() {
+  return path.join(__dirname, '../', `/icon.${isWindows() ? 'ico' : 'png'}`);
 }
 
 export default {
@@ -63,4 +67,5 @@ export default {
   getCssToInject,
   debugLog,
   shouldInjectCss,
+  getAppIcon,
 };

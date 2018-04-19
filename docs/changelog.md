@@ -1,3 +1,42 @@
+
+7.6.1 / 2018-03-29
+==================
+
+  * Fix CD with Travis #482
+
+7.6.0 / 2018-03-29
+==================
+
+  * Fix infer icon url #529
+  * Fix #549: Add --always-on-top build flag (PR #551)
+  * Update deps, default to Electron 1.8.4 stable
+  * Document internal-urls option (PR #465)
+  * Support Mac App Store (--mas) builds (PR #532)
+  * Fix #499: Add options to control file download behavior (PR #526)
+  * Fix #325 - Add --x and --y window position flags (PR #515)
+  * Fix #480 - Move all console.* to loglevel.* calls, eslint-fail on console.* (PR #507)
+  * Fix #496 - Recommend .png for --icon on all platforms, even macOS (PR #502)
+  * Fix #486 : --tray flag crashes nativefied app under Windows (PR #495)
+  * Fix #462 - When minimized to tray and single-instance, re-running the app should activate and focus it (#490)
+  * Fix #461 & address #375 in Docker: move Dockerfile to Debian and use wine32 (#488)
+
+7.5.4 / 2017-11-24
+==================
+
+  * Update Dockerfile to node8-alpine, fix typos
+  * Upgrade dependencies and default to latest Electron 1.7.9 (PR #483)
+
+7.5.0 / 2017-11-12
+==================
+
+* Add `--tray` flag to let app running in background on window close. Supports in-title counter. (Issue #304, PR #457)
+* Add HTTP `--basic-auth-{username,password}` flags (Issue #275, PR #444)
+* Add offline build detection and advice (Issue #448, PR #452)
+* Add 'Paste and Match Style' to Edit menu (Issue #404, PR #447)
+* Add setting environment variables (PR #419)
+* Add `app-copyright`, `app-version`, `build-version`, `version-string` and `win32metadata` flags (Issue #226, PR #244)
+* Fix: Make title counter regex match '+' after number, used by certain sites (PR #424)
+
 7.4.1 / 2017-08-06
 ==================
 
@@ -34,7 +73,7 @@
 7.2.0 / 2017-04-20
 ==================
   * Update dependencies, default to latest Electron 1.6.6 (#327, PR #341). **Feedback welcome in case of issues/regressions!**
-  * [Feature] Add `--single-instance` switch (PR #323) 
+  * [Feature] Add `--single-instance` switch (PR #323)
   * [Bug] Better honor `--zoom` option (#253, PR #347)
   * [Bug] Allow mDNS addresses (ending with `local.`) during URL validation (#308, PR #346)
   * [Docs] Readme and CLI cleanup
@@ -101,7 +140,7 @@
   * Fix bug where state of mainWindow is not managed properly
   * Implement setting of verbose log level
   * Implement infer of user agent from electron version
-  * Implement initial maximization of main window from cli 
+  * Implement initial maximization of main window from cli
   * Fix FOUC with inject CSS files
   * No need to run CI test for gulp release
 
@@ -110,7 +149,7 @@
 
   * Fix bugs retrieving icons from nativefier-icons
   * Add resize flag to convertToIco convert so that large `.png` will not throw errors when converting to `.ico`
-  
+
 6.12.0 / 2016-03-14
 ===================
 
