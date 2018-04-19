@@ -214,28 +214,28 @@ function createMenu({
           label: 'Dashboard',
           accelerator: 'CmdOrCtrl+2',
           click: (item, focusedWindow) => {
-            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/dashboard')
+            focusedWindow.loadURL('')
           },
         },
         {
           label: 'Boards',
           accelerator: 'CmdOrCtrl+3',
           click: (item, focusedWindow) => {
-            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/agiles')
+            focusedWindow.loadURL('')
           },
         },
         {
           label: 'Reports',
           accelerator: 'CmdOrCtrl+4',
           click: (item, focusedWindow) => {
-            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/reports')
+            focusedWindow.loadURL('')
           },
         },
         {
           label: 'Projects',
           accelerator: 'CmdOrCtrl+5',
           click: (item, focusedWindow) => {
-            focusedWindow.loadURL('https://nounproject.myjetbrains.com/youtrack/projects')
+            focusedWindow.loadURL('')
           },
         },
         {
